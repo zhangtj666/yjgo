@@ -74,6 +74,7 @@ func LoadRounter(s *ghttp.Server) {
 		group.ALL("/child", table.Child)
 		group.ALL("/curd", table.Curd)
 		group.ALL("/detail", table.Detail)
+		group.ALL("list", table.List)
 
 		group.ALL("/editable", table.Editable)
 		group.ALL("/event", table.Event)

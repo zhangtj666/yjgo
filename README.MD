@@ -79,6 +79,9 @@
 
 ## 感谢
 1. gf框架 [https://github.com/gogf/gf](https://github.com/gogf/gf) 
+2. RuoYi框架 [https://github.com/yangzongzhuan/RuoYi](https://github.com/yangzongzhuan/RuoYi)
+3. tealeg [https://github.com/tealeg/xlsx](https://github.com/tealeg/xlsx)
+4. swaggo [https://github.com/swaggo/swag](https://github.com/swaggo/swag)
 
 ## 项目支持
 
@@ -88,7 +91,6 @@
 
 > 也可以请作者喝一杯咖啡:)
 
-<img alt="" height="390" src="https://images.gitee.com/uploads/images/2020/0221/075218_2e68c13e_779478.jpeg" width="300" class="zoom-in-cursor">
 
 
 ## 微信交流群

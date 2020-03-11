@@ -1,9 +1,28 @@
 # HTTP Server
+[switch]
+    server = true
+    api = true
+
 [server]
 	Address     = ":8199"
 	ServerRoot  = "public"
 	ServerAgent = "yj-app"
 	LogPath     = "/tmp/log/yj-app/server"
+
+[api]
+	Address     = ":8080"
+	ServerRoot  = "public"
+	ServerAgent = "yj-app"
+	LogPath     = "/tmp/log/yj-app/api"
+	#jwt配置
+	[api.jwt]
+	    #1 gcache 2 redis
+	    CacheMode = 1
+	    CacheKey = "GToken:"
+	    Timeout = 3600000
+	    TokenDelimiter = "_"
+	    EncryptKey = "yjgoyjgoyjgoyjgo"
+	    MultiLogin = false
 
 # Logger.
 [logger]

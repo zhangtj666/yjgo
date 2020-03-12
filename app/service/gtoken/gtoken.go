@@ -268,7 +268,7 @@ func (m *GfToken) EncryptToken(userKey string, uuid string) (*TokenContent, erro
 	}
 	t.UserKey = userKey
 	t.Uuid = uuid
-	t.Token =string(gbase64.Encode(token))
+	t.Token = string(gbase64.Encode(token))
 
 	return &t, nil
 }

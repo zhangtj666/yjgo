@@ -10,7 +10,7 @@ import (
 func JWT(r *ghttp.Request) {
 	gt := gtoken.Instance()
 	if gt != nil {
- 		resp := gt.GetTokenData(r)
+		resp := gt.GetTokenData(r)
 		if resp.Code == 0 {
 			r.Middleware.Next()
 		} else {

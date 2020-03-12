@@ -32,7 +32,7 @@ func AESEncrypt(origData, key []byte) []byte {
 	//加密模式
 	blockMode := cipher.NewCBCEncrypter(block, key[:block.BlockSize()])
 	crypted := make([]byte, len(origData))
-	blockMode.CryptBlocks(crypted,origData)
+	blockMode.CryptBlocks(crypted, origData)
 	return crypted
 }
 

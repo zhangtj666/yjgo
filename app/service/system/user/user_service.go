@@ -22,7 +22,7 @@ import (
 	"yj-app/app/service/utils/random"
 )
 
-var SessionList = gmap.New()
+var SessionList = gmap.New(true)
 
 //根据主键查询用户信息
 func SelectRecordById(id int64) (*userModel.Entity, error) {

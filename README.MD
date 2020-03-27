@@ -4,6 +4,9 @@
 
 受之开源，回馈社区，本框架以GoFrame为web服务框架，继续沿用MIT开源协议，架构思路沿袭着若依的以辅助生成重复代码为主，不过度封装，生成的代码可以快速修改适应不同的需求，适应每个开发者自己的习惯和风格。所以命名为"云捷GO"（寓意：GO云原生业务快捷开发）
 
+## gin + xorm版
+>[https://github.com/zeroing-zy1/yjgov2](https://github.com/zeroing-zy1/yjgov2)
+
 ## 核心技术及组件
 > web服务框架    GoFrame        v1.11.4  
 >

@@ -1,15 +1,13 @@
-package middleware
+package auth
 
 import (
 	"github.com/gogf/gf/net/ghttp"
 	"strings"
 	"yj-app/app/model"
+	"yj-app/app/service/middleware/router"
 	menuService "yj-app/app/service/system/menu"
 	userService "yj-app/app/service/system/user"
 )
-
-//框架页面只判断是否登陆不做权限判断
-var FramePages = []string{"/index", "/system/main", "/system/download", "/system/switchSkin", "/login", "/logout"}
 
 // 鉴权中间件，只有登录成功之后才能通过
 func Auth(r *ghttp.Request) {
@@ -17,7 +15,9 @@ func Auth(r *ghttp.Request) {
 	if userService.IsSignedIn(r.Session) {
 		//根据url判断是否有权限
 		url := r.Request.URL
-		if !IsFramePage(url.Path) {
+		//获取权限标识
+		permission := router.FindPermission(url.Path)
+		if len(permission) > 0 {
 			//获取用户信息
 			user := userService.GetProfile(r.Session)
 			//获取用户菜单列表
@@ -35,7 +35,7 @@ func Auth(r *ghttp.Request) {
 			hasPermission := false
 
 			for i := range menus {
-				if strings.EqualFold(menus[i].Url, url.Path) {
+				if strings.EqualFold(menus[i].Perms, permission) {
 					hasPermission = true
 					break
 				}
@@ -60,14 +60,4 @@ func Auth(r *ghttp.Request) {
 	} else {
 		r.Response.RedirectTo("/login")
 	}
-}
-
-//判断是否是框架页面
-func IsFramePage(path string) bool {
-	for i := range FramePages {
-		if strings.EqualFold(FramePages[i], path) {
-			return true
-		}
-	}
-	return false
 }

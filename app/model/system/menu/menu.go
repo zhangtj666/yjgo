@@ -3,29 +3,14 @@ package menu
 import (
 	"github.com/gogf/gf/database/gdb"
 	"github.com/gogf/gf/errors/gerror"
-	"github.com/gogf/gf/os/gtime"
-	"yj-app/app/service/utils/page"
+	"yj-app/app/utils/page"
 )
 
 // Entity is the golang structure for table sys_menu.
 type EntityExtend struct {
-	MenuId     int64          `orm:"menu_id,primary" json:"menu_id"`     // 菜单ID
-	MenuName   string         `orm:"menu_name"       json:"menu_name"`   // 菜单名称
-	ParentId   int64          `orm:"parent_id"       json:"parent_id"`   // 父菜单ID
-	OrderNum   int            `orm:"order_num"       json:"order_num"`   // 显示顺序
-	Url        string         `orm:"url"             json:"url"`         // 请求地址
-	Target     string         `orm:"target"          json:"target"`      // 打开方式（menuItem页签 menuBlank新窗口）
-	MenuType   string         `orm:"menu_type"       json:"menu_type"`   // 菜单类型（M目录 C菜单 F按钮）
-	Visible    string         `orm:"visible"         json:"visible"`     // 菜单状态（0显示 1隐藏）
-	Perms      string         `orm:"perms"           json:"perms"`       // 权限标识
-	Icon       string         `orm:"icon"            json:"icon"`        // 菜单图标
-	CreateBy   string         `orm:"create_by"       json:"create_by"`   // 创建者
-	CreateTime *gtime.Time    `orm:"create_time"     json:"create_time"` // 创建时间
-	UpdateBy   string         `orm:"update_by"       json:"update_by"`   // 更新者
-	UpdateTime *gtime.Time    `orm:"update_time"     json:"update_time"` // 更新时间
-	Remark     string         `orm:"remark"          json:"remark"`      // 备注
-	ParentName string         `json:"parentName"`                        // 父菜单名称
-	Children   []EntityExtend `json:"children"`                          // 子菜单
+	Entity
+	ParentName string         `json:"parentName"` // 父菜单名称
+	Children   []EntityExtend `json:"children"`   // 子菜单
 }
 
 //检查菜单名称请求参数
@@ -99,7 +84,7 @@ func SelectRecordById(id int64) (*EntityExtend, error) {
 }
 
 //根据条件分页查询数据
-func SelectListPage(param *SelectPageReq) (*[]Entity, *page.Paging, error) {
+func SelectListPage(param *SelectPageReq) ([]Entity, *page.Paging, error) {
 	db, err := gdb.Instance()
 
 	if err != nil {
@@ -118,11 +103,11 @@ func SelectListPage(param *SelectPageReq) (*[]Entity, *page.Paging, error) {
 		}
 
 		if param.BeginTime != "" {
-			model = model.Where("date_format(m.create_time,'%y%m%d') >= date_format(?,'%y%m%d') ", param.BeginTime)
+			model.Where("date_format(m.create_time,'%y%m%d') >= date_format(?,'%y%m%d') ", param.BeginTime)
 		}
 
 		if param.EndTime != "" {
-			model = model.Where("date_format(m.create_time,'%y%m%d') <= date_format(?,'%y%m%d') ", param.EndTime)
+			model.Where("date_format(m.create_time,'%y%m%d') <= date_format(?,'%y%m%d') ", param.EndTime)
 		}
 	}
 
@@ -134,7 +119,7 @@ func SelectListPage(param *SelectPageReq) (*[]Entity, *page.Paging, error) {
 
 	page := page.CreatePaging(param.PageNum, param.PageSize, total)
 
-	model = model.Limit(page.StartNum, page.Pagesize)
+	model.Limit(page.StartNum, page.Pagesize)
 
 	var result []Entity
 
@@ -143,12 +128,12 @@ func SelectListPage(param *SelectPageReq) (*[]Entity, *page.Paging, error) {
 	if err != nil {
 		return nil, nil, gerror.New("读取数据失败")
 	} else {
-		return &result, page, nil
+		return result, page, nil
 	}
 }
 
 //获取所有数据
-func SelectListAll(param *SelectPageReq) (*[]Entity, error) {
+func SelectListAll(param *SelectPageReq) ([]Entity, error) {
 	db, err := gdb.Instance()
 
 	if err != nil {
@@ -166,22 +151,16 @@ func SelectListAll(param *SelectPageReq) (*[]Entity, error) {
 	}
 
 	if param.BeginTime != "" {
-		model = model.Where("date_format(m.create_time,'%y%m%d') >= date_format(?,'%y%m%d') ", param.BeginTime)
+		model.Where("date_format(m.create_time,'%y%m%d') >= date_format(?,'%y%m%d') ", param.BeginTime)
 	}
 
 	if param.EndTime != "" {
-		model = model.Where("date_format(m.create_time,'%y%m%d') <= date_format(?,'%y%m%d') ", param.EndTime)
+		model.Where("date_format(m.create_time,'%y%m%d') <= date_format(?,'%y%m%d') ", param.EndTime)
 	}
-
 	var result []Entity
 
 	err = model.Structs(&result)
-
-	if err != nil {
-		return nil, gerror.New("读取数据失败")
-	} else {
-		return &result, nil
-	}
+	return result, err
 }
 
 // 获取管理员菜单数据

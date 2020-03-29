@@ -12,8 +12,8 @@ import (
 	"yj-app/app/model/system/user_online"
 	logininforService "yj-app/app/service/monitor/logininfor"
 	userService "yj-app/app/service/system/user"
-	"yj-app/app/service/utils/ip"
-	"yj-app/app/service/utils/response"
+	"yj-app/app/utils/ip"
+	"yj-app/app/utils/response"
 )
 
 type RegisterReq struct {
@@ -33,7 +33,7 @@ func Login(r *ghttp.Request) {
 		return
 	}
 
-	response.BuildTpl(r, "login.html").WriteTplExtend()
+	response.BuildTpl(r, "login.html").WriteTpl()
 }
 
 // 图形验证码
@@ -171,6 +171,7 @@ func CheckLogin(r *ghttp.Request) {
 		userOnline.LastAccessTime = gtime.Now()
 		userOnline.Status = "on_line"
 		userOnline.LoginLocation = loginLocation
+		userOnline.Delete()
 		userOnline.Insert()
 
 		//移除登陆次数记录

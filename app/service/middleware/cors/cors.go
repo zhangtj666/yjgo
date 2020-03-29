@@ -1,4 +1,4 @@
-package middleware
+package cors
 
 import "github.com/gogf/gf/net/ghttp"
 

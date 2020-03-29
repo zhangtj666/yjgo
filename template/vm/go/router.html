@@ -7,25 +7,20 @@
 package {{.table.ModuleName}}
 
 import (
-	"github.com/gogf/gf/frame/g"
-	"github.com/gogf/gf/net/ghttp"
-	"{{.table.PackageName}}/app/service/middleware"
-	"{{.table.PackageName}}/app/controller/{{.table.ModuleName}}/{{.table.BusinessName}}"
+	"{{.table.PackageName}}/app/controller/system/config"
+	"{{.table.PackageName}}/app/service/middleware/auth"
+	"{{.table.PackageName}}/app/service/middleware/router"
 )
 
 //加载路由
 func init() {
-	s := g.Server()
-	// 参数路由
-	s.Group("/{{.table.ModuleName}}/{{.table.BusinessName}}", func(group *ghttp.RouterGroup) {
-		group.Middleware(middleware.Auth)
-		group.GET("/", {{.table.BusinessName}}.List)
-		group.POST("/list", {{.table.BusinessName}}.ListAjax)
-		group.GET("/add", {{.table.BusinessName}}.Add)
-		group.POST("/add", {{.table.BusinessName}}.AddSave)
-		group.POST("/remove", {{.table.BusinessName}}.Remove)
-		group.GET("/edit", {{.table.BusinessName}}.Edit)
-		group.POST("/edit", {{.table.BusinessName}}.EditSave)
-		group.ALL("/export", {{.table.BusinessName}}.Export)
-	})
+	g1 := router.New("admin", "/{{.table.ModuleName}}/{{.table.BusinessName}}", auth.Auth)
+	g1.GET("/", "{{.table.ModuleName}}:{{.table.BusinessName}}:view", {{.table.BusinessName}}.List)
+	g1.POST("/list", "{{.table.ModuleName}}:{{.table.BusinessName}}:list", {{.table.BusinessName}}.ListAjax)
+	g1.GET("/add", "{{.table.ModuleName}}:{{.table.BusinessName}}:add", {{.table.BusinessName}}.Add)
+	g1.POST("/add", "{{.table.ModuleName}}:{{.table.BusinessName}}:add", {{.table.BusinessName}}.AddSave)
+	g1.POST("/remove", "{{.table.ModuleName}}:{{.table.BusinessName}}:remove", {{.table.BusinessName}}.Remove)
+	g1.GET("/edit", "{{.table.ModuleName}}:{{.table.BusinessName}}:edit", {{.table.BusinessName}}.Edit)
+	g1.POST("/edit", "{{.table.ModuleName}}:{{.table.BusinessName}}:edit", {{.table.BusinessName}}.EditSave)
+	g1.POST("/export", "{{.table.ModuleName}}:{{.table.BusinessName}}:export", {{.table.BusinessName}}.Export)
 }

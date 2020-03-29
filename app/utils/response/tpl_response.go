@@ -3,7 +3,6 @@ package response
 import (
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/os/gview"
-	configService "yj-app/app/service/system/config"
 )
 
 // 通用tpl响应
@@ -41,17 +40,5 @@ func ForbiddenTpl(r *ghttp.Request) *TplResp {
 
 //输出页面模板附加自定义函数
 func (resp *TplResp) WriteTpl(params ...gview.Params) error {
-	ossurl := configService.GetValueByKey("sys.resource.url")
-
-	if ossurl != "" && ossurl != "null" {
-		resp.r.Cookie.Set("OssUrl", ossurl)
-	} else {
-		resp.r.Cookie.Set("OssUrl", "")
-	}
 	return resp.r.Response.WriteTpl(resp.tpl, params...)
-}
-
-//输出页面模板附加自定义函数
-func (resp *TplResp) WriteTplExtend(params ...gview.Params) error {
-	return resp.WriteTpl(params...)
 }

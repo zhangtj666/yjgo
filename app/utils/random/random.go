@@ -15,7 +15,7 @@ func GenValidateCode(width int) string {
 
 	var sb strings.Builder
 	for i := 0; i < width; i++ {
-		fmt.Fprintf(&sb, "%d", numeric[ rand.Intn(r) ])
+		fmt.Fprintf(&sb, "%d", numeric[rand.Intn(r)])
 	}
 	return sb.String()
 }

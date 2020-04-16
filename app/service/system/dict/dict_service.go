@@ -35,7 +35,7 @@ func GetDictTypeRadio(dictType, name string, value interface{}) string {
 	htmlstr := ``
 
 	for i := range result {
-		if strings.EqualFold(result[i].DictValue, gconv.String(value)) {
+		if strings.Compare(result[i].DictValue, gconv.String(value)) == 0 {
 			htmlstr += `<div class="radio-box"><option value="` + result[i].DictValue + `">` + result[i].DictLabel + `</option>`
 			htmlstr += `<input type="radio" id="` + gconv.String(result[i].DictCode) + `" name="` + name + `" value="` + result[i].DictValue + `"
                            checked="checked">
@@ -70,7 +70,7 @@ func GetDictTypeSelect(dictType, id, name, className, value, emptyLabel, multipl
 	}
 
 	for i := range result {
-		if strings.EqualFold(result[i].DictValue, value) {
+		if strings.Compare(result[i].DictValue, value) == 0 {
 			htmlstr += `<option selected value="` + result[i].DictValue + `">` + result[i].DictLabel + `</option>`
 		} else {
 			htmlstr += `<option value="` + result[i].DictValue + `">` + result[i].DictLabel + `</option>`
@@ -107,7 +107,6 @@ func GetDictTypeData(dictType string) string {
 //根据字典类型查询字典数据
 func SelectDictDataByType(dictType string) ([]dictDataModel.Entity, error) {
 	var result []dictDataModel.Entity
-	dictDataModel.FindAll("status = '0' and dict_type = ? order by dict_sort asc")
 	db, err := gdb.Instance()
 	if err != nil {
 		return nil, gerror.New("获取数据库连接失败")

@@ -10,7 +10,7 @@
 	LogPath     = "/tmp/log/yj-app/server"
 
 [api]
-	Address     = ":8080"
+	Address     = ":8089"
 	ServerRoot  = "public"
 	ServerAgent = "yj-app"
 	LogPath     = "/tmp/log/yj-app/api"
@@ -33,11 +33,11 @@
 [viewer]
     Path        = "template"
     DefaultFile = "index.html"
-    Delimiters  =  ["${", "}"]
+    Delimiters  =  ["{{", "}}"]
 
 # Database.
 [database]
-    link  = "mysql:root:password@tcp(127.0.0.1:3306)/yjgo"
+    link  = "mysql:zyroot:YjfYd&rE$DQpB+whnpa!@#@tcp(127.0.0.1:3306)/yjgo"
     debug = true
     # Database logger.
     [database.logger]

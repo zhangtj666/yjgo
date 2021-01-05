@@ -1,6 +1,13 @@
 package table
 
 import (
+	"strings"
+	tableModel "yj-app/app/model/tool/table"
+	tableColumnModel "yj-app/app/model/tool/table_column"
+	userService "yj-app/app/service/system/user"
+	"yj-app/app/utils/convert"
+	"yj-app/app/utils/page"
+
 	"github.com/gogf/gf/encoding/gjson"
 	"github.com/gogf/gf/encoding/gparser"
 	"github.com/gogf/gf/errors/gerror"
@@ -9,12 +16,6 @@ import (
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
-	"strings"
-	tableModel "yj-app/app/model/tool/table"
-	tableColumnModel "yj-app/app/model/tool/table_column"
-	userService "yj-app/app/service/system/user"
-	"yj-app/app/utils/convert"
-	"yj-app/app/utils/page"
 )
 
 //根据主键查询数据
@@ -333,10 +334,18 @@ func InitColumnField(column *tableColumnModel.Entity, table *tableModel.Entity) 
 		if tmp == "float" || tmp == "double" {
 			column.GoType = "float64"
 		} else {
+
 			start := strings.Index(tmp, "(")
 			end := strings.Index(tmp, ")")
-			result := tmp[start+1 : end]
-			arr := strings.Split(result, ",")
+			var arr []string
+			if start >= 0 && end >= 0 {
+				result := tmp[start+1 : end]
+
+				arr = strings.Split(result, ",")
+			} else {
+				arr = strings.Split(tmp, ",")
+			}
+
 			if len(arr) == 2 && gconv.Int(arr[1]) > 0 {
 				column.GoType = "float64"
 			} else if len(arr) == 1 && gconv.Int(arr[0]) <= 10 {
